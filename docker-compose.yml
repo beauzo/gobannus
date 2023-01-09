@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+
+  recorder:
+    image: recorder
+    build:
+      context: ./
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - AIRPLANE_BUILD_TRACKER_CAMERA_URL=${AIRPLANE_BUILD_TRACKER_CAMERA_URL}
+      - AIRPLANE_BUILD_TRACKER_CAMERA_MAC_ADDRESS=${AIRPLANE_BUILD_TRACKER_CAMERA_MAC_ADDRESS}
+    volumes:
+      - type: bind
+        source: "./recordings"
+        target: "/app/recordings"
