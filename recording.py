@@ -28,7 +28,7 @@ class Recording():
     async def start(self):
         while True:
             # send "magic" wake-on-LAN packet before recording
-            logger.info('sending "magic" WOL packet')
+            logger.info(f'sending "magic" WOL packet to {self.camera.mac_address}')
             send_magic_packet(self.camera.mac_address)
 
             # wait for a few seconds for the WOL packet to take effect (TBD: replace with a ping?)
