@@ -1,4 +1,4 @@
-version: '3.5'
+version: '2'
 
 services:
 
@@ -13,6 +13,5 @@ services:
       - AIRPLANE_BUILD_TRACKER_CAMERA_URL=${AIRPLANE_BUILD_TRACKER_CAMERA_URL}
       - AIRPLANE_BUILD_TRACKER_CAMERA_MAC_ADDRESS=${AIRPLANE_BUILD_TRACKER_CAMERA_MAC_ADDRESS}
     volumes:
-      - type: bind
-        source: "./recordings"
-        target: "/app/recordings"
+      - ./recordings:/app/recordings
+
