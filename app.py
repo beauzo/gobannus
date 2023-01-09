@@ -76,7 +76,7 @@ async def start_ffmepg(recording: Recording):
 
 @app.post('/recording')
 def create_recording(recording_data: RecordingModel, background_tasks: BackgroundTasks):
-    new_recording = Recording(recordings_store)
+    new_recording = Recording(recordings_store, default_camera, RECORDINGS_DIR)
     new_recording.set_name(recording_data.name)
     new_recording.set_description(recording_data.description)
 
