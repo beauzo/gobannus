@@ -11,14 +11,14 @@ class CustomFormatter(logging.Formatter):
     error_color = "\x1b[31;20m"  # red text
     critical_color = "\x1b[41;30m"  # white text, red background
     reset = "\x1b[0m"
-    format = "%(asctime)s %(levelname)s %(message)s (%(filename)s:%(lineno)d)"
+    _format: str = "%(asctime)s %(levelname)s %(message)s (%(filename)s:%(lineno)d)"
 
     FORMATS = {
-        logging.DEBUG: debug_color + format + reset,
-        logging.INFO: info_color + format + reset,
-        logging.WARNING: warning_color + format + reset,
-        logging.ERROR: error_color + format + reset,
-        logging.CRITICAL: critical_color + format + reset,
+        logging.DEBUG: debug_color + _format + reset,
+        logging.INFO: info_color + _format + reset,
+        logging.WARNING: warning_color + _format + reset,
+        logging.ERROR: error_color + _format + reset,
+        logging.CRITICAL: critical_color + _format + reset,
     }
 
     def format(self, record):

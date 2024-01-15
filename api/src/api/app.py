@@ -1,6 +1,6 @@
 import os
 from uuid import UUID
-from typing import List
+from typing import List, Dict
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -41,7 +41,7 @@ logger.info(f"recordings_db_file: {recordings_db_file}")
 default_camera = Camera(camera_url, camera_mac_address)
 
 recordings_store = RecordingStore(recordings_db_file)
-recordings = {}
+recordings: Dict[UUID, Recording] = {}
 
 print(Recording(recordings_store, default_camera, RECORDINGS_DIR))
 print(Recording(recordings_store, default_camera, RECORDINGS_DIR))

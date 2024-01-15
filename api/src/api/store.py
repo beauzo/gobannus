@@ -1,3 +1,4 @@
+from typing import List
 import sqlite3
 from uuid import UUID
 from urllib.request import pathname2url
@@ -89,7 +90,7 @@ class RecordingStore:
             db_conn.close()
 
     def read_recording(self, recording_uuid: UUID) -> RecordingModel:
-        recording = None
+        recording = RecordingModel()
         db_conn = sqlite3.connect(self.db_uri, uri=True)
         with db_conn:
             db_recording = db_conn.execute(
@@ -117,7 +118,7 @@ class RecordingStore:
 
         return recording
 
-    def get_recordings(self) -> list:
+    def get_recordings(self) -> List:
         db_conn = sqlite3.connect(self.db_uri, uri=True)
         with db_conn:
             recordings = db_conn.execute(
@@ -131,6 +132,8 @@ class RecordingStore:
 
         db_conn.close()
 
+        return []
+
         # return [
         #     RecordingModel(
         #         uuid=self.uuid,
@@ -140,7 +143,7 @@ class RecordingStore:
         #         progress=str(self.progress),
         #         start_time=self.start_time,
         #         stop_time=self.stop_time,
-        #         output_file=self.output_file
+        #         output_file=self.output_file,
         #     )
         # ]
 
@@ -158,7 +161,7 @@ class RecordingStore:
                             ON CONFLICT(filename) DO UPDATE SET
                                 recording_uuid=excluded.recording_uuid
                     """,
-                    (recording_file, str(recording.uuid)),
+                    (recording_file, str(recording_uuid)),
                 )
         except sqlite3.IntegrityError:
             logger.error("Unable to write recording file to database")

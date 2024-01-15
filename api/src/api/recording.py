@@ -2,7 +2,7 @@ import os
 import asyncio
 import datetime
 from uuid import UUID
-from ffmpeg import FFmpeg
+from ffmpeg import FFmpeg  # type: ignore
 from wakeonlan import send_magic_packet
 from .logger import get_logger
 from .store import RecordingStore
@@ -126,19 +126,19 @@ class Recording:
         self._read()
         return self.model.uuid
 
-    def get_name(self) -> str:
+    def get_name(self) -> str | None:
         self._read()
         return self.model.name
 
-    def set_name(self, name: str):
+    def set_name(self, name: str | None):
         self.model.name = name
         self._write()
 
-    def get_description(self) -> str:
+    def get_description(self) -> str | None:
         self._read()
         return self.model.description
 
-    def set_description(self, description: str):
+    def set_description(self, description: str | None):
         self.model.description = description
         self._write()
 
@@ -150,7 +150,7 @@ class Recording:
         self.model.is_recording = is_recording
         self._write()
 
-    def get_progress(self) -> str:
+    def get_progress(self) -> str | None:
         self._read()
         return self.model.progress
 
@@ -158,7 +158,7 @@ class Recording:
         self.model.progress = progress
         self._write()
 
-    def get_start_time(self) -> datetime.datetime:
+    def get_start_time(self) -> datetime.datetime | None:
         self._read()
         return self.model.start_time
 
@@ -166,7 +166,7 @@ class Recording:
         self.model.start_time = start_time
         self._write()
 
-    def get_stop_time(self) -> datetime.datetime:
+    def get_stop_time(self) -> datetime.datetime | None:
         self._read()
         return self.model.stop_time
 
@@ -174,7 +174,7 @@ class Recording:
         self.model.stop_time = stop_time
         self._write()
 
-    def get_output_file(self) -> str:
+    def get_output_file(self) -> str | None:
         self._read()
         return self.model.output_file
 
