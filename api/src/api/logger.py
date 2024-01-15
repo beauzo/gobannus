@@ -1,5 +1,5 @@
 import logging
-from env import get_env
+from .env import get_env
 
 print(f'{__name__} loaded')
 

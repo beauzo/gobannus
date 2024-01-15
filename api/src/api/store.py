@@ -1,8 +1,8 @@
 import sqlite3
 from uuid import UUID
 from urllib.request import pathname2url
-from logger import get_logger
-from schema import RecordingModel
+from .logger import get_logger
+from .schema import RecordingModel
 
 print(f'{__name__} loaded')
 logger = get_logger(__name__)

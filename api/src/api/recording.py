@@ -4,10 +4,10 @@ import datetime
 from uuid import UUID
 from ffmpeg import FFmpeg
 from wakeonlan import send_magic_packet
-from logger import get_logger
-from store import RecordingStore
-from schema import RecordingModel
-from camera import Camera
+from .logger import get_logger
+from .store import RecordingStore
+from .schema import RecordingModel
+from .camera import Camera
 
 print(f'{__name__} loaded')
 logger = get_logger(__name__)

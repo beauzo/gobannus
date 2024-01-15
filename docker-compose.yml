@@ -2,10 +2,10 @@ version: '2'
 
 services:
 
-  recorder:
-    image: recorder
+  api:
+    image: api
     build:
-      context: ./
+      context: ./api
     restart: unless-stopped
     ports:
       - "8000:8000"
