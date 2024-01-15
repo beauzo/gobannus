@@ -5,7 +5,11 @@ from . import model, schema
 
 
 def get_recording(db: Session, uuid: UUID):
-    return db.query(models.RecordingModel).filter(models.RecordingModel.uuid == uuid).first()
+    return (
+        db.query(models.RecordingModel)
+        .filter(models.RecordingModel.uuid == uuid)
+        .first()
+    )
 
 
 def create_recording(db: Session, recording: schemas.RecordingModel):
@@ -16,11 +20,11 @@ def create_recording(db: Session, recording: schemas.RecordingModel):
         progress=recording.progress,
         start_time=recording.start_time,
         stop_time=recording.stop_time,
-        output_file=recording.output_file
+        output_file=recording.output_file,
     )
-    
+
     db.add(db_recording)
     db.commit()
     db.refresh(db_recording)
-    
+
     return db_recording

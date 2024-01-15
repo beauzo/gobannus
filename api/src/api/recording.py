@@ -9,11 +9,11 @@ from .store import RecordingStore
 from .schema import RecordingModel
 from .camera import Camera
 
-print(f'{__name__} loaded')
+print(f"{__name__} loaded")
 logger = get_logger(__name__)
 
 
-class Recording():
+class Recording:
     def __init__(self, store: RecordingStore, camera: Camera, recordings_dir: str):
         self.ffmpeg = None
         self.file_index = 0
@@ -22,7 +22,7 @@ class Recording():
         self.camera = camera
         self.recordings_dir = recordings_dir
         self.model = RecordingModel()
-        logger.debug(f'Recording.__init__(): {self.model}')
+        logger.debug(f"Recording.__init__(): {self.model}")
         self.set_model(self.model)
 
     async def start(self):
@@ -32,59 +32,67 @@ class Recording():
             send_magic_packet(self.camera.mac_address)
 
             # wait for a few seconds for the WOL packet to take effect (TBD: replace with a ping?)
-            logger.info('waiting for WOL to take effect...')
+            logger.info("waiting for WOL to take effect...")
             await asyncio.sleep(1)
 
-            self.set_output_file(os.path.abspath(f'./{self.recordings_dir}/{str(self.model.uuid)}-{self.file_index}.mp4'))
-
-            # ffmpeg -i "<camera_url>" -an -vf framestep=4,setpts=N/60/TB,fps=60 <output>
-            ffmpeg = FFmpeg().input(
-                self.camera.url,
-                
-                # Specify file options using kwargs
-                rtsp_transport='tcp',
-                rtsp_flags='prefer_tcp',
-
-            ).option('an').option('y').output(
-                self.get_output_file(),
-                # Use a dictionary when an option name contains special characters
-                {
-                    'filter:v': "framestep=4,setpts=N/60/TB,fps=60,drawtext=fontfile=roboto.ttf:fontsize=36:fontcolor=yellow:text='%{localtime}'",
-                    'vcodec': 'libx265',
-                    'crf': 28,
-                    'tag:v': 'hvc1',
-                },
-                flush_packets=1,
+            self.set_output_file(
+                os.path.abspath(
+                    f"./{self.recordings_dir}/{str(self.model.uuid)}-{self.file_index}.mp4"
+                )
             )
 
-            @ffmpeg.on('start')
+            # ffmpeg -i "<camera_url>" -an -vf framestep=4,setpts=N/60/TB,fps=60 <output>
+            ffmpeg = (
+                FFmpeg()
+                .input(
+                    self.camera.url,
+                    # Specify file options using kwargs
+                    rtsp_transport="tcp",
+                    rtsp_flags="prefer_tcp",
+                )
+                .option("an")
+                .option("y")
+                .output(
+                    self.get_output_file(),
+                    # Use a dictionary when an option name contains special characters
+                    {
+                        "filter:v": "framestep=4,setpts=N/60/TB,fps=60,drawtext=fontfile=roboto.ttf:fontsize=36:fontcolor=yellow:text='%{localtime}'",
+                        "vcodec": "libx265",
+                        "crf": 28,
+                        "tag:v": "hvc1",
+                    },
+                    flush_packets=1,
+                )
+            )
+
+            @ffmpeg.on("start")
             def on_start(arguments):
-                logger.info(f'ffmpeg start: arguments: {arguments}')
+                logger.info(f"ffmpeg start: arguments: {arguments}")
                 self.set_is_recording(True)
                 self.set_start_time(datetime.datetime.now())
 
-            @ffmpeg.on('stderr')
+            @ffmpeg.on("stderr")
             def on_stderr(line):
-                logger.info(f'ffmpeg ffmpeg: {line}')
+                logger.info(f"ffmpeg ffmpeg: {line}")
 
-            @ffmpeg.on('progress')
+            @ffmpeg.on("progress")
             def on_progress(progress):
-                logger.debug(f'ffmpeg progress: {progress}')
+                logger.debug(f"ffmpeg progress: {progress}")
                 self.set_progress(str(progress))
 
-            @ffmpeg.on('completed')
+            @ffmpeg.on("completed")
             def on_completed():
-                logger.warn('ffmpeg completed: on its own')
+                logger.warn("ffmpeg completed: on its own")
 
-            @ffmpeg.on('terminated')
+            @ffmpeg.on("terminated")
             def on_terminated():
-                logger.info('ffmpeg terminated')
+                logger.info("ffmpeg terminated")
                 self.set_is_recording(False)
                 self.set_stop_time(datetime.datetime.now())
 
-            @ffmpeg.on('error')
+            @ffmpeg.on("error")
             def on_error(code):
-                logger.error(f'ffmpeg error: {code}')
+                logger.error(f"ffmpeg error: {code}")
                 self.n_errors += 1
 
             self.ffmpeg = ffmpeg

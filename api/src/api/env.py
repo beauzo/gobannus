@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-print(f'{__name__} loaded')
+print(f"{__name__} loaded")
 
 load_dotenv()
 
@@ -14,5 +14,5 @@ def get_env(env_var: str, default=None):
             return default
 
         raise KeyError
-    
+
     return env_var_value
