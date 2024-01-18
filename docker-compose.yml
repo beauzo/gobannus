@@ -1,6 +1,25 @@
-version: '2'
+version: '3.5'
 
 services:
+
+  db_api:
+    image: db-api
+    build:
+      context: ./db-api
+    restart: unless-stopped
+    environment:
+      PGRST_DB_URI: ${DB_URI}
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: api_anon
+
+  # Migrate the database schema, then exit
+  db_migration:
+    image: db-migration
+    build:
+      context: ./db-migration
+      dockerfile: ./Dockerfile
+    environment:
+      DATABASE_URL: ${DB_URI}
 
   api:
     image: api
