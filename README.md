@@ -1,5 +1,7 @@
 # Gobannus
 
+> Work in progress!
+
 Gobannus, also known as Goibniu or Gofannon in different Celtic traditions, is a deity associated with blacksmithing in
 Celtic mythology.
 
