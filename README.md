@@ -1,18 +1,18 @@
-# Airplane Build Tracker
+# Gobannus
 
-Experimental aircraft build tracker system.
+Gobannus is a project build recorder.
 
 Features:
-* Records camera feeds during build activities
-* Stores build activity video to YouTube
-* Synchronizes activity progress to Notion; includes links to YouTube videos 
+* Record multiple camera feeds during build activities
+* Automatically uploads build activity videos to YouTube
+* Synchronizes activity progress to Notion, including links to YouTube videos 
 
 TODO:
-* Detailed description, intent, and reasoning
+* Gobannus detailed description, intent, and reasoning
 * C4 model diagram
 
-## Setup
-* Requires Python >= 3.8
+## Requirements
+* Python >= 3.8
 * Docker and Docker Compose
 
 ## Run
