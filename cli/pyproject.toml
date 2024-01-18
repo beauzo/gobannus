@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gob-cli"
+authors = [
+    { name = "Beau Albiston", email = "beauzo@hotmail.com" },
+]
+description = "Gobannus CLI"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click",
+    "keyring",
+    "rich"
+]
+dynamic = ["version"]
+
+[project.scripts]
+gobctl = "cli.main:main"
+
+[tool]
+
+[tool.hatch.version]
+path = "src/cli/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cli"]

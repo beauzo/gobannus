@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+
+  db:
+    image: db
+    build:
+      context: ./db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: unless-stopped
+    command: postgres -c "shared_buffers=8GB"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - ${DB_HOST_PORT:-5432}:5432
+
+  # migrate the database schema, then exit
+  db_migration:
+    environment:
+      DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?sslmode=disable
+
+  db_api:
+    environment:
+      PGRST_DB_URI: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: api_anon
+    ports:
+      - ${DB_API_HOST_PORT:-3000}:3000
+
+volumes:
+  db_data:
