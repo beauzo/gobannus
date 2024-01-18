@@ -17,13 +17,15 @@ overlooked in traditional documentation, ensuring every step of the process is t
 detail is crucial for maintaining high standards of quality control and for verifying that all procedures align with
 safety requirements and design specifications.
 
+![Aircraft construction YouTube video](./docs/static/youtube.png)
+
 ## Features
 
 * __Multi-Camera Feed Recording:__ Gobannus enables the recording of build activities from multiple camera feeds
 simultaneously. This feature ensures comprehensive coverage and detailed documentation of the entire building process
 from different angles.
 * __Automatic YouTube Uploads:__ After recording, Gobannus takes care of uploading the build activity videos to YouTube.
-This automation saves time and effort, making the sharing of progress with team members or stakeholders effortless.
+This automation saves time and effort, making the sharing of progress effortless.
 * __Notion Integration:__ Gobannus goes a step further by synchronizing the activity progress to Notion. This
 integration includes links to the YouTube videos, providing an organized and accessible way to track and review project
 developments.
